@@ -11,6 +11,7 @@ class Product(models.Model):
         User, on_delete=models.CASCADE, related_name='posts')
     max_user = models.IntegerField('Максимально учеников')
     min_user = models.IntegerField('Минимально учеников')
+    users = models.ManyToManyField(User, blank=True)
 
 
 class Learn(models.Model):
@@ -26,13 +27,9 @@ class Group(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE,
         related_name='groups')
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, blank=True)
 
 
 class Student(models.Model):
     name = models.OneToOneField(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product)
-
-    def save(self, *args, **kwargs):
-        
-        super(Student, self).save(*args, **kwargs)
